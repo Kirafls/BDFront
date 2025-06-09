@@ -1,0 +1,26 @@
+<body>
+  <body>
+      <div class="login">
+          <div class="login-screen">
+              <div class="app-title">
+                  <h1>Bienvenido</h1>
+              </div>
+  
+              <form (submit)="login()">
+                  <div class="control-group">
+                  <input type="text" class="login-field" value="" placeholder="Usuario" id="username" [(ngModel)]="username" name="username">
+                  <label class="login-field-icon fui-user" for="username"></label>
+                  </div>
+  
+                  <div class="control-group">
+                  <input type="password" class="login-field" value="" placeholder="Contraseña" id="password" [(ngModel)]="password" name="password">
+                  <label class="login-field-icon fui-lock" for="password"></label>
+                  </div>
+                  <button class="btn btn-primary btn-large btn-block" type="submit">Iniciar sesión</button>
+                 
+                    
+                </form>
+          </div>
+      </div>
+  </body>
+</body>

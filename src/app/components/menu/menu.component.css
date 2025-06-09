@@ -1,0 +1,69 @@
+/* Contenedor del nav */
+.animated-nav {
+  width: 100%;
+  background: #2c3e50;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  z-index: 999;
+}
+
+.animated-nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.animated-nav li {
+  margin: 0 20px;
+}
+
+.animated-nav a {
+  position: relative;
+  display: inline-block;
+  padding: 20px 0;
+  color: #ecf0f1;
+  text-decoration: none;
+  font-size: 16px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.animated-nav a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 3px;
+  left: 0;
+  bottom: 10px;
+  background: #1abc9c;
+  transition: width 0.4s ease;
+}
+
+.animated-nav a:hover::after {
+  width: 100%;
+}
+
+.animated-nav a:hover {
+  color: #1abc9c;
+  transform: scale(1.05);
+}
+
+/* Estilo para enlace activo */
+.animated-nav a.active {
+  color: #1abc9c;
+}
+
+.animated-nav a.active::after {
+  width: 100%;
+}
+
+/* Espaciado para el contenido que viene después del menú */
+body {
+  margin: 0;
+  padding-top: 70px;
+  font-family: sans-serif;
+  background: #34495e;
+}
