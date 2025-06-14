@@ -10,6 +10,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MenuComponent } from './components/menu/menu.component';
 import { InicioComponent } from './components/inicio/inicio.component';
+import { CrearclienteComponent } from './components/crearcliente/crearcliente.component';
+
 
 
 
@@ -19,7 +21,8 @@ import { InicioComponent } from './components/inicio/inicio.component';
     AppComponent,
     LoginComponent,
     MenuComponent,
-    InicioComponent
+    InicioComponent,
+    CrearclienteComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,143 @@
+<!-- Contenedor principal con margen superior para evitar que se esconda bajo el navbar -->
+<div class="container mt-5 pt-5">
+  <div class="row">
+    <!-- Formulario -->
+    <div class="col-md-7">
+      <h2 class="mb-4">Registrar Cliente</h2>
+      <form #clienteForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input
+            type="text"
+            id="nombre"
+            class="form-control"
+            name="nombre"
+            required
+            [(ngModel)]="cliente.nombre"
+            #nombre="ngModel"
+          />
+          <div class="text-danger" *ngIf="nombre.invalid && nombre.touched">
+            El nombre es requerido.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="apellidos" class="form-label">Apellidos</label>
+          <input
+            type="text"
+            id="apellidos"
+            class="form-control"
+            name="apellidos"
+            required
+            [(ngModel)]="cliente.apellidos"
+            #apellidos="ngModel"
+          />
+          <div class="text-danger" *ngIf="apellidos.invalid && apellidos.touched">
+            Los apellidos son requeridos.
+          </div>
+        </div>
+
+        <div class="mb-3">
+        <label for="rfc" class="form-label">RFC</label>
+        <input
+            type="text"
+            id="rfc"
+            class="form-control"
+            name="rfc"
+            [(ngModel)]="cliente.rfc"
+            required
+            #rfc="ngModel"
+        />
+        <div *ngIf="rfc.invalid && rfc.touched" class="text-danger">
+            El RFC es obligatorio.
+        </div>
+        </div>
+
+        <div class="form-check mb-3">
+          <input
+            type="checkbox"
+            id="politica"
+            class="form-check-input"
+            name="politica"
+            required
+            [(ngModel)]="cliente.politica"
+            #politica="ngModel"
+          />
+          <label for="politica" class="form-check-label">
+            Acepto las políticas de privacidad
+          </label>
+          <div class="text-danger" *ngIf="politica.invalid && politica.touched">
+            Debes aceptar las políticas de privacidad.
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="clienteForm.invalid"
+        >
+          Enviar
+        </button>
+      </form>
+    </div>
+
+    <!-- Sección de políticas de privacidad -->
+    <div class="col-md-5">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title">Política de Privacidad</h5>
+          <p class="card-text">
+            La información proporcionada será utilizada únicamente con fines de registro interno.
+            No compartiremos tus datos personales con terceros. Al enviar este formulario, confirmas
+            tu conformidad con estas políticas de manejo de datos.
+          </p>
+          <p class="text-muted mb-0"><small>Debe estar de acuerdo con estas politicas.</small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="container mt-5">
+  <h2 class="text-center mb-4">🎉 Ventajas de estar registrado</h2>
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">Acceso rápido a promociones</h5>
+          <p class="card-text">
+            Los usuarios registrados reciben ofertas exclusivas y descuentos especiales antes que nadie.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">Historial de compras</h5>
+          <p class="card-text">
+            Visualiza tus compras pasadas, descarga facturas y lleva control de tus pedidos con facilidad.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">Soporte personalizado</h5>
+          <p class="card-text">
+            Recibe atención preferencial por parte de nuestro equipo de soporte técnico.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="bg-dark text-light py-3 mt-5">
+  <div class="container text-center">
+    <p class="mb-1">© 2023 Super Mario. Todos los derechos reservados.</p>
+    <p class="mb-0">Teléfono: 123-456-7890</p>
+  </div>
+</footer>
