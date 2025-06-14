@@ -12,4 +12,6 @@ export class NuserService {
   sendUser(user: string,contra:string):Observable<any>{
     return this.http.post(this.bduser,{user,contra});
   }
-}
+
+  
+} 

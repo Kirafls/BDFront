@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { CclienteService } from 'src/app/services/ccliente.service';
 
 @Component({
   selector: 'app-crearcliente',
@@ -17,15 +18,41 @@ export class CrearclienteComponent {
     politica: false
   };
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,private scliente:CclienteService) {}
 
-  onSubmit() {
-    if (this.cliente.politica) {
-      console.log('Formulario válido. Cliente:', this.cliente);
-      this.router.navigate(['/inicio']);
-      alert("Se ha guardado la informacion correctamente")
-    } else {
-      alert('Debes aceptar las políticas de privacidad.');
-    }
+  async onSubmit() {
+  // Validación de campos obligatorios
+  // Validación básica de RFC (puedes mejorarla)
+  try {
+    console.log('Enviando datos del cliente:', this.cliente);
+    
+    // Llamada al servicio
+    const resultado = await this.scliente.crearCliente(
+      this.cliente.nombre.trim(),
+      this.cliente.apellidos.trim(),
+      this.cliente.rfc.toUpperCase().trim()
+    ).toPromise();
+
+    console.log('Respuesta del servidor:', resultado);
+    
+    // Feedback al usuario
+    alert('Información guardada correctamente');
+    
+    // Redirección
+    this.router.navigate(['/inicio']);
+    
+    // Opcional: Resetear el formulario
+    this.cliente = {
+      nombre: '',
+      apellidos: '',
+      rfc: '',
+      politica: false
+    };
+
+  } catch (error) {
+    console.error('Error al crear cliente:', error);
+    
+    // Manejo específico de errores
   }
+ }
 }
