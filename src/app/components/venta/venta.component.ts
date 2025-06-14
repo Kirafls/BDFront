@@ -26,7 +26,23 @@ export class VentaComponent implements OnInit {
     { id: 1, nombre: 'Jitomate', unidad: 'KG', precio: 10, stock: 100 },
     { id: 2, nombre: 'Cebolla', unidad: 'KG', precio: 15, stock: 60 },
     { id: 3, nombre: 'Leche', unidad: 'LT', precio: 25, stock: 40 },
-    { id: 4, nombre: 'Pan', unidad: 'PZ', precio: 5, stock: 200 }
+    { id: 4, nombre: 'Pan', unidad: 'PZ', precio: 5, stock: 200 },
+    { id: 5, nombre: 'Jitomate', unidad: 'KG', precio: 10, stock: 100 },
+    { id: 6, nombre: 'Cebolla', unidad: 'KG', precio: 15, stock: 60 },
+    { id: 7, nombre: 'Leche', unidad: 'LT', precio: 25, stock: 40 },
+    { id: 8, nombre: 'Pan', unidad: 'PZ', precio: 5, stock: 200 },
+    { id: 9, nombre: 'Jitomate', unidad: 'KG', precio: 10, stock: 100 },
+    { id: 10, nombre: 'Cebolla', unidad: 'KG', precio: 15, stock: 60 },
+    { id: 11, nombre: 'Leche', unidad: 'LT', precio: 25, stock: 40 },
+    { id: 12, nombre: 'Pan', unidad: 'PZ', precio: 5, stock: 200 },
+    { id: 13, nombre: 'Jitomate', unidad: 'KG', precio: 10, stock: 100 },
+    { id: 14, nombre: 'Cebolla', unidad: 'KG', precio: 15, stock: 60 },
+    { id: 15, nombre: 'Leche', unidad: 'LT', precio: 25, stock: 40 },
+    { id: 16, nombre: 'Pan', unidad: 'PZ', precio: 5, stock: 200 },
+    { id: 17, nombre: 'Jitomate', unidad: 'KG', precio: 10, stock: 100 },
+    { id: 18, nombre: 'Cebolla', unidad: 'KG', precio: 15, stock: 60 },
+    { id: 19, nombre: 'Leche', unidad: 'LT', precio: 25, stock: 40 },
+    { id: 20, nombre: 'Pan', unidad: 'PZ', precio: 5, stock: 200 }
   ];
 
   productosFiltrados: Producto[] = [];

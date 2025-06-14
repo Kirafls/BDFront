@@ -1,1 +1,228 @@
-<p>admin-productos works!</p>
+<div class="admin-container">
+      <h1 class="admin-title">Administración de Productos</h1>
+      
+      <div class="admin-layout">
+
+        <div class="productos-panel">
+          <div class="panel-header">
+            <h3>Lista de Productos</h3>
+            <button 
+              (click)="mostrarFormulario('nuevo')"
+              class="btn-nuevo">
+              + Nuevo Producto
+            </button>
+          </div>
+
+          <div class="busqueda-container">
+            <div class="search-box">
+              <input 
+                type="text" 
+                [(ngModel)]="terminoBusqueda"
+                (input)="filtrarProductos()"
+                placeholder="Buscar producto..."
+                class="search-input">
+            </div>
+          </div>
+
+          <div class="tabla-container">
+            <div class="tabla-productos">
+              <div class="tabla-header">
+                <span>ID</span>
+                <span>Nombre</span>
+                <span>Unidad</span>
+                <span>Precio</span>
+                <span>Stock</span>
+                <span>Estado</span>
+                <span>Acciones</span>
+              </div>
+              
+              <div class="tabla-body">
+                <div 
+                  *ngFor="let producto of productosFiltrados" 
+                  class="producto-row"
+                  [class.inactivo]="!producto.activo">
+                  <span class="producto-id">{{ producto.id }}</span>
+                  <span class="producto-nombre">{{ producto.nombre }}</span>
+                  <span class="producto-unidad">{{ producto.unidad }}</span>
+                  <span class="producto-precio">${{ producto.precio }}</span>
+                  <span class="producto-stock" 
+                        [class.stock-bajo]="producto.stock < 10">
+                    {{ producto.stock }}
+                  </span>
+                  <span class="producto-estado">
+                    <span class="estado-badge" 
+                          [class.activo]="producto.activo"
+                          [class.inactivo]="!producto.activo">
+                      {{ producto.activo ? 'Activo' : 'Inactivo' }}
+                    </span>
+                  </span>
+                  <div class="acciones">
+                    <button 
+                      (click)="editarProducto(producto)"
+                      class="btn-editar"
+                      title="Editar">
+                      <img src="../../../assets/pencil.png" alt="">
+                    </button>
+                    <button 
+                      (click)="toggleEstado(producto)"
+                      class="btn-toggle"
+                      [class.activar]="!producto.activo"
+                      [class.desactivar]="producto.activo"
+                      [title]="producto.activo ? 'Desactivar' : 'Activar'">
+                      <img [src]="producto.activo ? '../../../assets/lock.png' : '../../../assets/unlock.png'" 
+                      [alt]="producto.activo ? 'Desactivar' : 'Activar'" >
+                    </button>
+                    <button 
+                      (click)="eliminarProducto(producto)"
+                      class="btn-eliminar"
+                      title="Eliminar">
+                      <img src="../../../assets/trash.png" alt="">
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="estadisticas">
+            <div class="stat-card">
+              <span class="stat-number">{{ productos.length }}</span>
+              <span class="stat-label">Total Productos</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">{{ productosActivos }}</span>
+              <span class="stat-label">Activos</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">{{ productosStockBajo }}</span>
+              <span class="stat-label">Stock Bajo</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="formulario-panel">
+          <div class="panel-header">
+            <h3>{{ modoEdicion ? 'Editar Producto' : 'Nuevo Producto' }}</h3>
+          </div>
+          
+          <form (ngSubmit)="guardarProducto()" #productoForm="ngForm" class="producto-form">
+            <div class="form-group">
+              <label for="nombre">Nombre del Producto *</label>
+              <input 
+                type="text" 
+                id="nombre"
+                [(ngModel)]="productoActual.nombre"
+                name="nombre"
+                required
+                class="form-control"
+                placeholder="Ingrese el nombre del producto">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="unidad">Unidad *</label>
+                <select 
+                  id="unidad"
+                  [(ngModel)]="productoActual.unidad"
+                  name="unidad"
+                  required
+                  class="form-control">
+                  <option value="">Seleccionar</option>
+                  <option value="PZ">Pieza (PZ)</option>
+                  <option value="KG">Kilogramo (KG)</option>
+                  <option value="LT">Litro (LT)</option>
+                  <option value="M">Metro (M)</option>
+                  <option value="M2">Metro² (M2)</option>
+                  <option value="CAJA">Caja</option>
+                  <option value="PAQ">Paquete</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="precio">Precio *</label>
+                <input 
+                  type="number" 
+                  id="precio"
+                  [(ngModel)]="productoActual.precio"
+                  name="precio"
+                  required
+                  min="0"
+                  step="0.01"
+                  class="form-control"
+                  placeholder="0.00">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="stock">Stock Inicial *</label>
+                <input 
+                  type="number" 
+                  id="stock"
+                  [(ngModel)]="productoActual.stock"
+                  name="stock"
+                  required
+                  min="0"
+                  class="form-control"
+                  placeholder="0">
+              </div>
+
+              <div class="form-group">
+                <label for="categoria">Categoría</label>
+                <select 
+                  id="categoria"
+                  [(ngModel)]="productoActual.categoria"
+                  name="categoria"
+                  class="form-control">
+                  <option value="">Sin categoría</option>
+                  <option value="Alimentos">Alimentos</option>
+                  <option value="Bebidas">Bebidas</option>
+                  <option value="Limpieza">Limpieza</option>
+                  <option value="Ferretería">Ferretería</option>
+                  <option value="Otros">Otros</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="descripcion">Descripción</label>
+              <textarea 
+                id="descripcion"
+                [(ngModel)]="productoActual.descripcion"
+                name="descripcion"
+                rows="3"
+                class="form-control"
+                placeholder="Descripción opcional del producto">
+              </textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input 
+                  type="checkbox"
+                  [(ngModel)]="productoActual.activo"
+                  name="activo"
+                  class="form-checkbox">
+                <span class="checkmark"></span>
+                Producto activo
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button 
+                type="submit"
+                [disabled]="!productoForm.form.valid"
+                class="btn-guardar">
+                {{ modoEdicion ? 'Actualizar' : 'Guardar' }} Producto
+              </button>
+              <button 
+                type="button"
+                (click)="limpiarFormulario()"
+                class="btn-limpiar">
+                Limpiar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>

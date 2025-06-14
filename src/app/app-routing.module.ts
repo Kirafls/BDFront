@@ -4,12 +4,14 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { VentaComponent } from './components/venta/venta.component';
+import { AdminProductosComponent } from './components/admin-productos/admin-productos.component';
 
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'inicio', component: InicioComponent},
   { path: 'venta', component: VentaComponent},
+  { path: 'productos', component: AdminProductosComponent},
   { path: '', redirectTo: 'inicio', pathMatch: 'full' }, // Redirige a /login
 ];
 
