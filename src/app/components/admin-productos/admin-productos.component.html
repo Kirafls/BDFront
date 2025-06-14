@@ -29,7 +29,7 @@
               <div class="tabla-header">
                 <span>ID</span>
                 <span>Nombre</span>
-                <span>Unidad</span>
+                <span>Descripción</span>
                 <span>Precio</span>
                 <span>Stock</span>
                 <span>Estado</span>
@@ -43,7 +43,7 @@
                   [class.inactivo]="!producto.activo">
                   <span class="producto-id">{{ producto.id }}</span>
                   <span class="producto-nombre">{{ producto.nombre }}</span>
-                  <span class="producto-unidad">{{ producto.unidad }}</span>
+                  <span class="producto-descripcion">{{ producto.descripcion }}</span>
                   <span class="producto-precio">${{ producto.precio }}</span>
                   <span class="producto-stock" 
                         [class.stock-bajo]="producto.stock < 10">
