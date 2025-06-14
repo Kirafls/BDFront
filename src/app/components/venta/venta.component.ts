@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
-interface Producto {
-  id: number;
-  nombre: string;
-  unidad: string;
-  precio: number;
-  stock: number;
-}
+import { ProductosService, Producto } from '../../services/productos.service';
+import { VentasService, VentaRequest, ItemVenta } from '../../services/ventas.service';
 
 interface ItemCarrito {
   producto: Producto;
@@ -19,40 +13,47 @@ interface ItemCarrito {
   templateUrl: './venta.component.html',
   styleUrls: ['./venta.component.css']
 })
-
-
 export class VentaComponent implements OnInit {
-   productos: Producto[] = [
-    { id: 1, nombre: 'Jitomate', unidad: 'KG', precio: 10, stock: 100 },
-    { id: 2, nombre: 'Cebolla', unidad: 'KG', precio: 15, stock: 60 },
-    { id: 3, nombre: 'Leche', unidad: 'LT', precio: 25, stock: 40 },
-    { id: 4, nombre: 'Pan', unidad: 'PZ', precio: 5, stock: 200 },
-    { id: 5, nombre: 'Jitomate', unidad: 'KG', precio: 10, stock: 100 },
-    { id: 6, nombre: 'Cebolla', unidad: 'KG', precio: 15, stock: 60 },
-    { id: 7, nombre: 'Leche', unidad: 'LT', precio: 25, stock: 40 },
-    { id: 8, nombre: 'Pan', unidad: 'PZ', precio: 5, stock: 200 },
-    { id: 9, nombre: 'Jitomate', unidad: 'KG', precio: 10, stock: 100 },
-    { id: 10, nombre: 'Cebolla', unidad: 'KG', precio: 15, stock: 60 },
-    { id: 11, nombre: 'Leche', unidad: 'LT', precio: 25, stock: 40 },
-    { id: 12, nombre: 'Pan', unidad: 'PZ', precio: 5, stock: 200 },
-    { id: 13, nombre: 'Jitomate', unidad: 'KG', precio: 10, stock: 100 },
-    { id: 14, nombre: 'Cebolla', unidad: 'KG', precio: 15, stock: 60 },
-    { id: 15, nombre: 'Leche', unidad: 'LT', precio: 25, stock: 40 },
-    { id: 16, nombre: 'Pan', unidad: 'PZ', precio: 5, stock: 200 },
-    { id: 17, nombre: 'Jitomate', unidad: 'KG', precio: 10, stock: 100 },
-    { id: 18, nombre: 'Cebolla', unidad: 'KG', precio: 15, stock: 60 },
-    { id: 19, nombre: 'Leche', unidad: 'LT', precio: 25, stock: 40 },
-    { id: 20, nombre: 'Pan', unidad: 'PZ', precio: 5, stock: 200 }
-  ];
-
+  productos: Producto[] = [];
   productosFiltrados: Producto[] = [];
   terminoBusqueda: string = '';
   cantidades: { [key: number]: number } = {};
   carrito: ItemCarrito[] = [];
+  cargando: boolean = false;
+  procesandoVenta: boolean = false;
+  error: string = '';
+  metodoPago: string = 'efectivo';
+  ultimaVentaId: number | null = null;
+  ticketGenerado: string = '';
+  mostrarTicket: boolean = false;
+
+  constructor(
+    private productosService: ProductosService,
+    private ventasService: VentasService
+  ) { }
 
   ngOnInit() {
-    this.productosFiltrados = [...this.productos];
-    this.inicializarCantidades();
+    this.cargarProductos();
+  }
+
+  // Cargar productos desde la API (solo productos activos)
+  cargarProductos() {
+    this.cargando = true;
+    this.error = '';
+    
+    this.productosService.getProductosActivos().subscribe({
+      next: (productos) => {
+        this.productos = productos;
+        this.productosFiltrados = [...productos];
+        this.inicializarCantidades();
+        this.cargando = false;
+      },
+      error: (error) => {
+        this.error = error;
+        this.cargando = false;
+        console.error('Error al cargar productos:', error);
+      }
+    });
   }
 
   inicializarCantidades() {
@@ -65,9 +66,18 @@ export class VentaComponent implements OnInit {
     if (!this.terminoBusqueda.trim()) {
       this.productosFiltrados = [...this.productos];
     } else {
-      this.productosFiltrados = this.productos.filter(producto =>
-        producto.nombre.toLowerCase().includes(this.terminoBusqueda.toLowerCase())
-      );
+      this.productosService.buscarProductos(this.terminoBusqueda).subscribe({
+        next: (productos) => {
+          this.productosFiltrados = productos.filter(p => p.activo);
+        },
+        error: (error) => {
+          console.error('Error al buscar productos:', error);
+          this.productosFiltrados = this.productos.filter(producto =>
+            producto.nombre.toLowerCase().includes(this.terminoBusqueda.toLowerCase()) ||
+            (producto.categoria && producto.categoria.toLowerCase().includes(this.terminoBusqueda.toLowerCase()))
+          );
+        }
+      });
     }
   }
 
@@ -87,6 +97,14 @@ export class VentaComponent implements OnInit {
   agregarAlCarrito(producto: Producto) {
     const cantidad = this.cantidades[producto.id];
     if (cantidad > 0) {
+      const cantidadEnCarrito = this.getCantidadEnCarrito(producto.id);
+      const cantidadTotal = cantidadEnCarrito + cantidad;
+      
+      if (cantidadTotal > producto.stock) {
+        alert(`No hay suficiente stock. Stock disponible: ${producto.stock}, en carrito: ${cantidadEnCarrito}`);
+        return;
+      }
+
       const itemExistente = this.carrito.find(item => item.producto.id === producto.id);
       
       if (itemExistente) {
@@ -104,6 +122,16 @@ export class VentaComponent implements OnInit {
     }
   }
 
+  getCantidadEnCarrito(productoId: number): number {
+    const item = this.carrito.find(item => item.producto.id === productoId);
+    return item ? item.cantidad : 0;
+  }
+
+  getStockDisponible(producto: Producto): number {
+    const cantidadEnCarrito = this.getCantidadEnCarrito(producto.id);
+    return producto.stock - cantidadEnCarrito;
+  }
+
   eliminarDelCarrito(index: number) {
     this.carrito.splice(index, 1);
   }
@@ -111,6 +139,9 @@ export class VentaComponent implements OnInit {
   limpiarCarrito() {
     this.carrito = [];
     this.inicializarCantidades();
+    this.mostrarTicket = false;
+    this.ticketGenerado = '';
+    this.ultimaVentaId = null;
   }
 
   calcularTotal(): number {
@@ -118,11 +149,123 @@ export class VentaComponent implements OnInit {
   }
 
   procesarVenta() {
-    if (this.carrito.length > 0) {
-      const total = this.calcularTotal();
-      alert(`Venta procesada por $${total} MXN`);
-      this.limpiarCarrito();
+    if (this.carrito.length === 0) {
+      alert('El carrito está vacío');
+      return;
+    }
+
+    // Verificar stock antes de procesar
+    const stockInsuficiente = this.carrito.find(item => 
+      item.cantidad > item.producto.stock
+    );
+    
+    if (stockInsuficiente) {
+      alert(`Stock insuficiente para ${stockInsuficiente.producto.nombre}`);
+      return;
+    }
+
+    const total = this.calcularTotal();
+    
+    if (!confirm(`¿Confirmar venta por $${total.toFixed(2)} MXN?`)) {
+      return;
+    }
+
+    this.procesandoVenta = true;
+    this.error = '';
+
+    // Preparar datos para la API
+    const itemsVenta: ItemVenta[] = this.carrito.map(item => ({
+      productoId: item.producto.id,
+      cantidad: item.cantidad,
+      precioUnitario: item.producto.precio,
+      subtotal: item.subtotal
+    }));
+
+    const ventaRequest: VentaRequest = {
+      items: itemsVenta,
+      total: total,
+      metodoPago: this.metodoPago
+    };
+
+    // Procesar venta en el backend
+    this.ventasService.procesarVenta(ventaRequest).subscribe({
+      next: (response) => {
+        this.procesandoVenta = false;
+        this.ultimaVentaId = response.ventaId;
+        
+        alert(`Venta procesada correctamente por $${response.total.toFixed(2)} MXN\nTicket No: ${response.ventaId}`);
+        
+        // Limpiar carrito y recargar productos
+        this.limpiarCarrito();
+        this.cargarProductos();
+        
+        // Generar ticket automáticamente
+        this.generarTicket(response.ventaId);
+      },
+      error: (error) => {
+        this.procesandoVenta = false;
+        this.error = error;
+        alert(`Error al procesar la venta: ${error}`);
+      }
+    });
+  }
+
+  generarTicket(ventaId?: number) {
+    const id = ventaId || this.ultimaVentaId;
+    if (!id) {
+      alert('No hay venta para generar ticket');
+      return;
+    }
+
+    this.ventasService.generarTicket(id).subscribe({
+      next: (response) => {
+        this.ticketGenerado = response.ticket;
+        this.mostrarTicket = true;
+      },
+      error: (error) => {
+        alert(`Error al generar ticket: ${error}`);
+      }
+    });
+  }
+
+  imprimirTicket() {
+    if (!this.ticketGenerado) return;
+    
+    const ventanaImpresion = window.open('', '_blank');
+    if (ventanaImpresion) {
+      ventanaImpresion.document.write(`
+        <html>
+          <head>
+            <title>Ticket de Venta</title>
+            <style>
+              body { font-family: monospace; font-size: 12px; margin: 20px; }
+              pre { white-space: pre-wrap; }
+            </style>
+          </head>
+          <body>
+            <pre>${this.ticketGenerado}</pre>
+          </body>
+        </html>
+      `);
+      ventanaImpresion.document.close();
+      ventanaImpresion.print();
     }
   }
 
+  cerrarTicket() {
+    this.mostrarTicket = false;
+    this.ticketGenerado = '';
+  }
+
+  reintentar() {
+    this.cargarProductos();
+  }
+
+  tieneStockBajo(producto: Producto): boolean {
+    return producto.stock < 10;
+  }
+
+  estaAgotado(producto: Producto): boolean {
+    return this.getStockDisponible(producto) <= 0;
+  }
 }
