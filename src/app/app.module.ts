@@ -11,7 +11,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MenuComponent } from './components/menu/menu.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { CrearclienteComponent } from './components/crearcliente/crearcliente.component';
-
+import { AdminProductosComponent } from './components/admin-productos/admin-productos.component';
+import { VentaComponent } from './components/venta/venta.component';
 
 
 
@@ -23,6 +24,8 @@ import { CrearclienteComponent } from './components/crearcliente/crearcliente.co
     MenuComponent,
     InicioComponent,
     CrearclienteComponent,
+    AdminProductosComponent,
+    VentaComponent
   ],
   imports: [
     BrowserModule,

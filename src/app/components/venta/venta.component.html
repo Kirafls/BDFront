@@ -1,0 +1,99 @@
+<div class="pos-container">
+      <h1 class="pos-title">Punto de venta X</h1>
+      
+      <div class="pos-layout">
+        <div class="productos-panel">
+          <div class="busqueda-container">
+            <h3>Búsqueda de producto</h3>
+            <div class="search-box">
+              <input 
+                type="text" 
+                [(ngModel)]="terminoBusqueda"
+                (input)="filtrarProductos()"
+                placeholder="Escriba el nombre del producto..."
+                class="search-input">
+            </div>
+          </div>
+
+          <div class="resultados-container">
+            <h4>Resultados</h4>
+            <div class="tabla-productos">
+              <div class="tabla-header">
+                <span>Nombre</span>
+                <span>Unidad</span>
+                <span>Precio</span>
+                <span>Cantidad</span>
+                <span>Confirmar</span>
+              </div>
+              
+              <div class="tabla-body">
+                <div 
+                  *ngFor="let producto of productosFiltrados" 
+                  class="producto-row">
+                  <span class="producto-nombre">{{ producto.nombre }}</span>
+                  <span class="producto-unidad">{{ producto.unidad }}</span>
+                  <span class="producto-precio">${{ producto.precio }}</span>
+                  <div class="cantidad-controls">
+                    <button 
+                      (click)="decrementarCantidad(producto.id)"
+                      class="btn-cantidad">−</button>
+                    <span class="cantidad-display">{{ cantidades[producto.id] || 0 }}</span>
+                    <button 
+                      (click)="incrementarCantidad(producto.id)"
+                      class="btn-cantidad">+</button>
+                  </div>
+                  <button 
+                    (click)="agregarAlCarrito(producto)"
+                    [disabled]="!cantidades[producto.id] || cantidades[producto.id] === 0"
+                    class="btn-confirmar">
+                    Confirmar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="resumen-panel">
+          <div class="resumen-header">
+            <h3>Resumen de compra</h3>
+          </div>
+          
+          <div class="carrito-items">
+            <div 
+              *ngFor="let item of carrito; let i = index" 
+              class="carrito-item">
+              <div class="item-info">
+                <span class="item-nombre">{{ item.producto.nombre }}</span>
+                <span class="item-detalle">{{ item.cantidad }}{{ item.producto.unidad }} - ${{ item.subtotal }}</span>
+              </div>
+              <button 
+                (click)="eliminarDelCarrito(i)"
+                class="btn-eliminar">✕</button>
+            </div>
+          </div>
+
+          <div class="resumen-total">
+            <hr>
+            <div class="total-line">
+              <span>Total</span>
+              <span class="total-amount">${{ calcularTotal() }}</span>
+            </div>
+          </div>
+
+          <div class="acciones-venta">
+            <button 
+              (click)="procesarVenta()"
+              [disabled]="carrito.length === 0"
+              class="btn-procesar">
+              Procesar Venta
+            </button>
+            <button 
+              (click)="limpiarCarrito()"
+              class="btn-cancelar">
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
