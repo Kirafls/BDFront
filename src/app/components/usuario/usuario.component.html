@@ -1,0 +1,115 @@
+<body style="color: beige;">
+  <br><br><br><br>
+  <div class="row mx-2" >
+    <!-- Izquierda: Tabla de usuarios -->
+    <div class="col-md-8">
+      <div class="p-4 bg-white rounded shadow border border-primary">
+        <h3 class="text-primary mb-3">Lista de Usuarios</h3>
+
+        <input
+          type="text"
+          class="form-control mb-3"
+          placeholder="Buscar por nombre o apellido..."
+          [(ngModel)]="terminoBusqueda"
+          name="busqueda"
+        />
+
+        <table class="table table-striped table-bordered">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Rol</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let usuario of usuarios | filtroUsuario:terminoBusqueda; let i = index" 
+                [class.table-secondary]="!usuario.estado"
+                [ngStyle]="{
+                  'background-color': 
+                    (usuario.nombre.toLowerCase().includes(terminoBusqueda.toLowerCase()) || 
+                     usuario.apellido.toLowerCase().includes(terminoBusqueda.toLowerCase())) && terminoBusqueda 
+                    ? '#fff3cd' : ''
+                }">
+              <td>{{ usuario.id }}</td>
+              <td>{{ usuario.nombre }}</td>
+              <td>{{ usuario.apellido }}</td>
+              <td>{{ getRolTexto(usuario.rol) }}</td>
+              <td>
+                <span class="badge" [ngClass]="usuario.estado ? 'bg-success' : 'bg-danger'">
+                  {{ usuario.estado ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+              <td>
+                <button class="btn btn-primary btn-sm me-1" (click)="editarUsuario(i)">✏️</button>
+                <button class="btn btn-warning btn-sm me-1" (click)="toggleEstado(i)">
+                  {{ usuario.estado ? '🔒' : '🔓' }}
+                </button>
+                <button class="btn btn-danger btn-sm" (click)="eliminarUsuario(i)">🗑️</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="row mt-3">
+          <div class="col">
+            <div class="alert alert-info"><strong>Administradores:</strong> {{ totalAdministradores }}</div>
+          </div>
+          <div class="col">
+            <div class="alert alert-info"><strong>Vendedores:</strong> {{ totalVendedores }}</div>
+          </div>
+          <div class="col">
+            <div class="alert alert-success"><strong>Activos:</strong> {{ totalActivos }}</div>
+          </div>
+          <div class="col">
+            <div class="alert alert-danger"><strong>Inactivos:</strong> {{ totalInactivos }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Derecha: Formulario -->
+    <div class="col-md-4">
+      <div class="p-4 bg-white rounded shadow border border-primary">
+        <h3 class="text-primary mb-3">Nuevo Usuario</h3>
+        <form (ngSubmit)="guardarUsuario()" #usuarioForm="ngForm">
+          <div class="row mb-2">
+            <div class="col">
+              <label>ID</label>
+              <input type="number" class="form-control" required [(ngModel)]="model.id" name="id" />
+            </div>
+            <div class="col">
+              <label>Nombre</label>
+              <input type="text" class="form-control" required [(ngModel)]="model.nombre" name="nombre" />
+            </div>
+            <div class="col">
+              <label>Apellido</label>
+              <input type="text" class="form-control" required [(ngModel)]="model.apellido" name="apellido" />
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col">
+              <label>Rol</label>
+              <select class="form-control" [(ngModel)]="model.rol" name="rol">
+                <option [value]="1">Vendedor</option>
+                <option [value]="2">Administrador</option>
+              </select>
+            </div>
+            <div class="col">
+              <label>Estado</label><br />
+              <input type="checkbox" [(ngModel)]="model.estado" name="estado" />
+              {{ model.estado ? 'Activo' : 'Inactivo' }}
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-success mt-2">Guardar Usuario</button>
+          <button type="button" class="btn btn-secondary mt-2 ms-2" (click)="limpiarFormulario()">Limpiar</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</body>

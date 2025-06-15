@@ -10,6 +10,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MenuComponent } from './components/menu/menu.component';
 import { InicioComponent } from './components/inicio/inicio.component';
+import { UsuarioComponent } from "./components/usuario/usuario.component";
+import { FiltroUsuarioPipe } from './filtro-usuario.pipe';
 
 
 
@@ -19,15 +21,17 @@ import { InicioComponent } from './components/inicio/inicio.component';
     AppComponent,
     LoginComponent,
     MenuComponent,
-    InicioComponent
+    InicioComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
-  ],
+    ReactiveFormsModule,
+    UsuarioComponent,
+    FiltroUsuarioPipe
+],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true },
   ],
