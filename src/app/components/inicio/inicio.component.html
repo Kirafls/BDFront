@@ -1,88 +1,52 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abarrotes Super Mario</title>
-    <style>
-        body {
-            margin: 0;
-            padding-top: 70px;
-            font-family: sans-serif;
-            background: #848f9a;
-        }
-        header {
-            background-color: #f8f9fa;
-            padding: 20px;
-            text-align: center;
-        }
-        .logo {
-            max-width: 150px;
-        }
-        .hero {
-            background-color: #e9ecef;
-            padding: 50px 20px;
-            text-align: center;
-        }
-        .slogan {
-            font-size: 2em;
-            font-weight: bold;
-            color: #007bff;
-            margin-bottom: 20px;
-        }
-        .intro {
-            max-width: 800px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            padding: 20px;
-        }
-        .gallery img {
-            max-width: 300px;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        footer {
-            background-color: #343a40;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 30px;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <img src="logo-tienda.png" alt="Logo de la tienda" class="logo">
-        <h1>Super Mario</h1>
-    </header>
+<header>
+    <h1>MegaSuper Mario</h1>
+    <img src="../../../assets/supermario-logo.png" alt="Logo de la tienda" class="logo">
+</header>
 
-    <section class="hero">
-        <p class="slogan">"Servicio y Calidad</p>
-        <p>Descubre la mejor selección de productos para ti</p>
-    </section>
+<section class="hero">
+    <p class="slogan">"Servicio y Calidad"</p>
+    <p>Descubre la mejor selección de productos para ti</p>
+</section>
 
-    <section class="intro">
-        <h2>Bienvenido a nuestra tienda</h2>
-        <p>Somos una empresa comprometida con ofrecer productos de alta calidad a precios competitivos. Con años de experiencia en el mercado, nos enorgullece brindar un excelente servicio al cliente y una amplia variedad de artículos para satisfacer todas tus necesidades.</p>
-        <p>Explora nuestro catálogo y encuentra exactamente lo que buscas, con la garantía de calidad que nos caracteriza.</p>
-    </section>
+<section class="intro">
+    <h2>Bienvenido a nuestra tienda</h2>
+    <p>Somos una empresa comprometida con ofrecer productos de alta calidad a precios competitivos. Con años de experiencia en el mercado, nos enorgullece brindar un excelente servicio al cliente y una amplia variedad de artículos para satisfacer todas tus necesidades.</p>
+    <p>Explora nuestro catálogo y encuentra exactamente lo que buscas, con la garantía de calidad que nos caracteriza.</p>
+    
+    <h2 class="sucursales">Visita nuestras sucursales</h2>
+    <hr>
+</section>
 
-    <section class="gallery">
-        <h2 style="text-align: center; width: 100%;">Nuestros productos destacados</h2>
-        <img src="producto1.jpg" alt="Producto 1">
-        
-    </section>
+<section class="sucursales-grid">
+    <div class="map-item">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11947.075293667423!2d-100.34300470041661!3d25.69256559142635!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x866295e8e7742331%3A0x92afe97b82054c6e!2sABARROTES%20ESTRELLA!5e1!3m2!1ses-419!2smx!4v1750004861273!5m2!1ses-419!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <p>Sucursal Monterrey</p>
+    </div>
+    <div class="map-item">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6250.893539767974!2d-99.13424115541545!3d19.442917700000017!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1f930fa077241%3A0x496e3c943199f6a4!2sAbarrotes%20%22La%20Frontera%22!5e1!3m2!1ses-419!2smx!4v1750004918198!5m2!1ses-419!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <p>Sucursal CDMX</p>
+    </div>
+    <div class="map-item">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d59610.82168756271!2d-98.26072638711787!3d19.05165603529378!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85cfc12c5b064583%3A0x23edde59be219042!2sAbarrotes%20La%20Luz%2C%20S.A%20DE%20C.V!5e1!3m2!1ses-419!2smx!4v1750004966491!5m2!1ses-419!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <p>Sucursal Puebla</p>
+    </div>
+    <div class="map-item">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d49627.55415896778!2d-103.39650529961223!3d20.639676774227492!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8428adc2a39b984f%3A0xf9db6b41ffe0fc53!2sAbarrotera%20Nova%20S.A.%20de%20C.V.!5e1!3m2!1ses-419!2smx!4v1750005024278!5m2!1ses-419!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <p>Sucursal Guadalajara</p>
+    </div>
+    <div class="map-item">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6191.108166510539!2d-89.62524450321041!3d20.940077800000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f56718675880b37%3A0x3bab1d2dcba1f810!2sAbarrotes%20Dunosusa%20Dolores%20Otero!5e1!3m2!1ses-419!2smx!4v1750005237721!5m2!1ses-419!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <p>Sucursal Mérida</p>
+    </div>
+    <div class="map-item">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d44724.91559400172!2d-117.0940691158745!3d32.50253123957856!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80d9499df5a5a8ed%3A0xb914ec6b83893fe3!2sABARROTES%20GONZALEZ!5e1!3m2!1ses-419!2smx!4v1750005273374!5m2!1ses-419!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <p>Sucursal Tijuana</p>
+    </div>
+    <hr><hr>
+</section>
 
-    <footer>
-        <p>© 2023 Super Mario. Todos los derechos reservados.</p>
-        <p>Teléfono: 123-456-7890</p>
-    </footer>
-</body>
-</html>
+<footer>
+    <br>
+    <p>© 2023 Super Mario. Todos los derechos reservados.</p>
+    <p>Teléfono: 123-456-7890</p>
+</footer>

@@ -3,7 +3,7 @@
       margin: 0 auto;
       padding: 20px;
       font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
+      background-color: #F5F0CD;
       min-height: 100vh;
     }
 
@@ -28,7 +28,7 @@
       border-radius: 15px;
       padding: 25px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      border: 2px solid #333;
+      border: 2px solid #3674B5;
       overflow-y: auto;
     }
 
@@ -90,7 +90,7 @@
     .search-input {
       flex: 1;
       padding: 12px;
-      border: 2px solid #ddd;
+      border: 2px solid #FADA7A;
       border-radius: 8px;
       font-size: 1rem;
     }
@@ -99,10 +99,11 @@
       margin-bottom: 20px;
       flex: 1px;
       overflow-y: auto;
+      max-height: 62vh;
     }
 
     .tabla-productos {
-      border: 2px solid #333;
+      border: 2px solid #3674B5;
       border-radius: 10px;
       overflow: hidden;
     }
@@ -113,9 +114,10 @@
       background: #f8f9fa;
       padding: 15px;
       font-weight: bold;
-      border-bottom: 2px solid #333;
+      border-bottom: 2px solid #3674B5;
       gap: 10px;
     }
+    
 
     .producto-row {
       display: grid;
@@ -223,7 +225,7 @@
       padding: 15px;
       border-radius: 10px;
       text-align: center;
-      border: 1px solid #dee2e6;
+      border: 1px solid #FADA7A;
     }
 
     .stat-number {
@@ -263,7 +265,7 @@
 
     .form-control {
       padding: 12px;
-      border: 2px solid #ddd;
+      border: 2px solid #FADA7A;
       border-radius: 8px;
       font-size: 1rem;
     }

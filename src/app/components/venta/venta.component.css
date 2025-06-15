@@ -2,7 +2,7 @@
     width: 100%;
     padding: 20px;
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    background-color: #F5F0CD;
     min-height: 100vh;
     box-sizing: border-box;
 }
@@ -27,7 +27,7 @@
     border-radius: 15px;
     padding: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border: 2px solid #333;
+    border: 2px solid #578FCA;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -57,7 +57,7 @@
 .search-input {
     flex: 1;
     padding: 12px;
-    border: 2px solid #ddd;
+    border: 2px solid #FADA7A;
     border-radius: 8px;
     font-size: 1rem;
 }
@@ -82,7 +82,7 @@
 }
 
 .tabla-productos {
-    border: 2px solid #333;
+    border: 2px solid #3674B5;
     border-radius: 10px;
     overflow: hidden;
     display: flex;
@@ -97,7 +97,7 @@
     background: #f8f9fa;
     padding: 15px;
     font-weight: bold;
-    border-bottom: 2px solid #333;
+    border-bottom: 2px solid #3674B5;
     gap: 10px;
 }
 

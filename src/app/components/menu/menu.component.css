@@ -1,7 +1,7 @@
 /* Contenedor del nav */
 .animated-nav {
   width: 100%;
-  background: #2c3e50;
+  background: #3674B5;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
   position: fixed;
   top: 0;
@@ -38,7 +38,7 @@
   height: 3px;
   left: 0;
   bottom: 10px;
-  background: #1abc9c;
+  background: #FADA7A;
   transition: width 0.4s ease;
 }
 
@@ -47,23 +47,15 @@
 }
 
 .animated-nav a:hover {
-  color: #1abc9c;
+  color: #FADA7A;
   transform: scale(1.05);
 }
 
 /* Estilo para enlace activo */
 .animated-nav a.active {
-  color: #1abc9c;
+  color: #FADA7A;
 }
 
 .animated-nav a.active::after {
   width: 100%;
-}
-
-/* Espaciado para el contenido que viene después del menú */
-body {
-  margin: 0;
-  padding-top: 70px;
-  font-family: sans-serif;
-  background: #34495e;
 }
