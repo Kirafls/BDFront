@@ -31,7 +31,7 @@ login() {
             response.user.username
           );
 
-          //alert(`Bienvenido ${response.user.username} (Permiso: ${response.user.permiso})`);
+          alert(`Bienvenido ${response.user.username}`);
           this.router.navigate(['/inicio']); // Redirige independientemente del permiso
         } else {
           this.errorMessage = 'Estructura de respuesta inválida';
@@ -44,8 +44,5 @@ login() {
         alert(`Error: ${this.errorMessage}`);
       }
     });
-}
-  createUser(): void {
-    this.router.navigate(['/createuser']);
   }
 }
