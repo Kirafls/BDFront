@@ -37,6 +37,11 @@ export class ReporteComponent {
   /**
    * Carga los reportes desde el servidor
    */
+  generarVentas(): void {
+    this.pdfService.generarReporteVentas();
+  }
+
+
   cargarReportes(): void {
     this.reporteVentas.cargando = true;
     this.reporteVentas.error = '';
