@@ -1,127 +1,72 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ProductosService } from '../../services/productos.service';
+import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common'; 
+import { FormsModule } from '@angular/forms';
+
+
+interface Venta {
+  id_factura: number;
+  total: number;
+  iva: number;
+  cliente: string;
+  datos_envio: string;
+  nombre_producto: string;
+  cantidad: number;
+  precio_unitario: number;
+  id_compra: number;
+  
+  punto_venta: string;
+  id_vendedor: number;
+  fecha: string;
+  metodo_pago: string;
+}
 
 @Component({
-  selector: 'app-reportes-ventas',
+  selector: 'app-reporte-ventas',
   templateUrl: './reportes-ventas.component.html',
-  styleUrls: ['./reportes-ventas.component.css']
+  styleUrls: ['./reportes-ventas.component.css'],
+
 })
 export class ReportesVentasComponent implements OnInit {
-  
-  // Propiedades para el PDF
-  pdfVisible = false;
-  pdfSrc: string = '';
-  pdfSrcSanitized: SafeResourceUrl | null = null;
-  
-  // Datos de ventas y reportes
-  ventas: any[] = [];
-  reportes: any[] = [];
-  
-  // Estados de carga
-  cargando = false;
+  ventas: Venta[] = [];
+  terminoBusqueda: string = '';
+  ventasFiltradas: Venta[] = [];
+  loading = true;
   error = '';
+cargando: any;
 
-  constructor(
-    private productosService: ProductosService,
-    private sanitizer: DomSanitizer
-  ) {}
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.cargarReporte();
-    this.cargarVentas();
+    this.obtenerVentas();
   }
 
-  cargarReporte() {
-    this.cargando = true;
-    this.error = '';
-    
-    this.productosService.getReporteVentas().subscribe({
-      next: (data) => {
-        this.reportes = data;
-        this.cargando = false;
-      },
-      error: (err) => {
-        this.error = 'Error al cargar los reportes';
-        this.cargando = false;
-        console.error('Error cargando reportes:', err);
-      }
-    });
+  obtenerVentas(): void {
+    this.http.get<Venta[]>('http://localhost:3000/api/facturas')
+      .subscribe({
+        next: (data) => {
+          this.ventas = data;
+          this.ventasFiltradas = data;
+          this.loading = false;
+        },
+        error: () => {
+          this.error = 'Error al obtener reportes de ventas.';
+          this.loading = false;
+        }
+      });
   }
 
-  cargarVentas() {
-    this.productosService.getVentasReporte().subscribe({
-      next: (data) => {
-        this.ventas = data;
-        console.log('Ventas cargadas:', this.ventas);
-      },
-      error: (err) => {
-        console.error('Error cargando reporte de ventas:', err);
-        this.error = 'Error al cargar las ventas';
-      }
-    });
+  filtrarVentas(): void {
+    const termino = this.terminoBusqueda.toLowerCase();
+    this.ventasFiltradas = this.ventas.filter(v =>
+      v.punto_venta.toLowerCase().includes(termino) ||
+      v.id_compra.toString().includes(termino) ||
+      v.id_vendedor.toString().includes(termino) ||
+      v.metodo_pago.toLowerCase().includes(termino)
+    );
   }
 
-  abrirPDF(venta: any) {
-    try {
-      console.log('Intentando abrir PDF para venta:', venta);
-      
-      // Opción 1: Crear URL del PDF de manera simple
-      const pdfUrl = `http://localhost/mi_api/api/generar-pdf.php?factura=${venta.Id_factura}`;
-
-      // Abrir en nueva ventana (más confiable)
-      window.open(pdfUrl, '_blank', 'width=800,height=600');
-      
-      // Opción 2: Si quieres mostrar en modal (descomenta las líneas de abajo)
-      /*
-      this.pdfSrc = pdfUrl;
-      this.pdfSrcSanitized = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
-      this.pdfVisible = true;
-      */
-      
-    } catch (error) {
-      console.error('Error abriendo PDF:', error);
-      this.error = 'Error al abrir el PDF';
-      alert('Error al abrir el PDF. Revisa la consola para más detalles.');
-    }
-  }
-
-  cerrarPDF() {
-    this.pdfVisible = false;
-    this.pdfSrc = '';
-    this.pdfSrcSanitized = null;
-  }
-
-  // Método para generar PDF si es necesario
-  generarPDF(venta: any) {
-    this.productosService.generarPDFFactura(venta.Id_factura).subscribe({
-      next: (response) => {
-        // Si el servicio devuelve un blob
-        const blob = new Blob([response], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        this.pdfSrc = url;
-        this.pdfSrcSanitized = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-        this.pdfVisible = true;
-      },
-      error: (err) => {
-        console.error('Error generando PDF:', err);
-        this.error = 'Error al generar el PDF';
-      }
-    });
-  }
-
-  // Método para descargar PDF
-  descargarPDF(venta: any) {
-    try {
-      const link = document.createElement('a');
-      link.href = `http://localhost/mi_api/api/generar-pdf.php?factura=${venta.Id_factura}&download=1`;
-      link.download = `factura_${venta.Id_factura}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      console.error('Error descargando PDF:', error);
-      alert('Error al descargar el PDF');
-    }
+  descargarPDF(): void {
+    window.open('http://localhost:3000/api/ventas/reporte/pdf', '_blank');
   }
 }

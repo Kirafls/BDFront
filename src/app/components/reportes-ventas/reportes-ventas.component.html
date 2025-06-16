@@ -1,17 +1,17 @@
 <div class="reporte-container">
   <h2>Reporte de ventas</h2>
 
-  <!-- Mensaje de carga -->
+  <!-- Estado de carga -->
   <div *ngIf="cargando" class="cargando">
     Cargando reportes...
   </div>
 
-  <!-- Mensaje de error -->
+  <!-- Error -->
   <div *ngIf="error" class="error">
     {{ error }}
   </div>
 
-  <!-- Tabla de ventas -->
+  <!-- Tabla de resultados -->
   <table class="tabla-ventas" *ngIf="!cargando && ventas.length > 0">
     <thead>
       <tr>
@@ -28,17 +28,16 @@
     </thead>
     <tbody>
       <tr *ngFor="let venta of ventas">
-        <td>{{ venta.Id_factura }}</td>
+        <td>{{ venta.id_factura }}</td>
         <td>${{ venta.total | number:'1.2-2' }}</td>
         <td>${{ venta.iva | number:'1.2-2' }}</td>
         <td>{{ venta.cliente }}</td>
         <td>{{ venta.datos_envio || 'N/A' }}</td>
-        <td>{{ venta.Id_producto }}</td>
+        <td>{{ venta.nombre_producto }}</td>
         <td>{{ venta.cantidad }}</td>
         <td>${{ venta.precio_unitario | number:'1.2-2' }}</td>
         <td>
-            
-          <button (click)="descargarPDF(venta)" title="Descargar PDF" class="btn-descargar">
+          <button (click)="descargarPDF()" class="btn-descargar" title="Descargar PDF">
             ⬇️ Descargar
           </button>
         </td>
@@ -46,24 +45,22 @@
     </tbody>
   </table>
 
-  <!-- Mensaje si no hay ventas -->
+  <!-- Si no hay ventas -->
   <div *ngIf="!cargando && ventas.length === 0" class="error">
     No se encontraron ventas para mostrar.
   </div>
 </div>
 
-<!-- Modal para mostrar PDF -->
-<div class="pdf-modal" *ngIf="pdfVisible" (click)="cerrarPDF()">
+<!-- Modal PDF -->
+<!-- <div class="pdf-modal" *ngIf="pdfVisible" (click)="cerrarPDF()">
   <div class="pdf-content" (click)="$event.stopPropagation()">
     <button class="close-button" (click)="cerrarPDF()" title="Cerrar">✕</button>
     <iframe 
-      [src]="pdfSrcSanitized" 
-      width="100%" 
-      height="600px"
-      *ngIf="pdfSrcSanitized">
+      *ngIf="pdfSrcSanitized"
+      [src]="pdfSrcSanitized"
+      width="100%"
+      height="600px">
     </iframe>
-    <div *ngIf="!pdfSrcSanitized" class="cargando">
-      Cargando PDF...
-    </div>
+    <div *ngIf="!pdfSrcSanitized" class="cargando">Cargando PDF...</div>
   </div>
-</div>
+</div> -->

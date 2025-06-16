@@ -1,11 +1,13 @@
 // admin-productos.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ProductosService, Producto } from '../../services/productos.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-productos',
   templateUrl: './admin-productos.component.html',
-  styleUrls: ['./admin-productos.component.css']
+  styleUrls: ['./admin-productos.component.css'],
 })
 export class AdminProductosComponent implements OnInit {
 

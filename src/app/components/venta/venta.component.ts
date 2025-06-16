@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductosService, Producto } from '../../services/productos.service';
 import { VentasService, VentaRequest, ItemVenta } from '../../services/ventas.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 interface ItemCarrito {
   producto: Producto;
@@ -10,8 +12,10 @@ interface ItemCarrito {
 
 @Component({
   selector: 'app-venta',
+  
   templateUrl: './venta.component.html',
-  styleUrls: ['./venta.component.css']
+  styleUrls: ['./venta.component.css'],
+  
 })
 export class VentaComponent implements OnInit {
   productos: Producto[] = [];
@@ -55,7 +59,7 @@ export class VentaComponent implements OnInit {
       }
     });
   }
-
+  
   inicializarCantidades() {
     this.productos.forEach(producto => {
       this.cantidades[producto.id] = 0;

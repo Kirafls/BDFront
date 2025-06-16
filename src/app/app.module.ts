@@ -23,16 +23,20 @@ import { ReportesVentasComponent } from './components/reportes-ventas/reportes-v
     LoginComponent,
     MenuComponent,
     InicioComponent,
-    AdminProductosComponent,
     VentaComponent,
+    AdminProductosComponent,
     ReportesVentasComponent
   ],
   imports: [
+  
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    
+    
+    
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true },
