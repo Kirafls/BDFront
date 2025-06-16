@@ -13,9 +13,7 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { CrearclienteComponent } from './components/crearcliente/crearcliente.component';
 import { AdminProductosComponent } from './components/admin-productos/admin-productos.component';
 import { VentaComponent } from './components/venta/venta.component';
-
-
-
+import { UsuarioComponent } from './components/usuario/usuario.component';
 
 @NgModule({
   declarations: [
@@ -25,14 +23,15 @@ import { VentaComponent } from './components/venta/venta.component';
     InicioComponent,
     CrearclienteComponent,
     AdminProductosComponent,
-    VentaComponent
+    VentaComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    UsuarioComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true },

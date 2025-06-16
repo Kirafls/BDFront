@@ -1,0 +1,159 @@
+<body class="d-flex flex-column min-vh-100">
+<div class="container mt-5 pt-3">
+  <!-- Mensajes fijos en la parte superior -->
+  <div class="fixed-top-messages" style="position: sticky; top: 56px; z-index: 1000;">
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show mb-2">
+      {{ errorMessage }}
+      <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+    </div>
+    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show mb-2">
+      {{ successMessage }}
+      <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Tabla de empleados -->
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+          <h3 class="mb-0">Lista de Empleados</h3>
+          <button class="btn btn-sm btn-primary" (click)="mostrarFormularioNuevo()">
+            <i class="bi bi-plus-circle"></i> Nuevo Usuario
+          </button>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Permiso</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let empleado of empleados" [class.table-secondary]="empleado.permiso === '0'">
+                <td>{{ empleado.Id }}</td>
+                <td>{{ empleado.user }}</td>
+                <td>{{ empleado.nombre }}</td>
+                <td>{{ empleado.apellido }}</td>
+                <td>{{ getPermisoTexto(empleado.permiso) }}</td>
+                <td>
+                  <span class="badge rounded-pill" [ngClass]="empleado.permiso !== '0' ? 'bg-success' : 'bg-danger'">
+                    {{ empleado.permiso !== '0' ? 'Activo' : 'Inactivo' }}
+                  </span>
+                </td>
+                <td>
+                  <div class="btn-group btn-group-sm">
+                    <button class="btn btn-primary" (click)="editarEmpleado(empleado)" title="Editar">✏️
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn" 
+                            [class.btn-warning]="empleado.permiso !== '0'"
+                            [class.btn-success]="empleado.permiso === '0'"
+                            (click)="toggleEstado(empleado)"
+                            [title]="empleado.permiso === '0' ? 'Activar' : 'Desactivar'">{{ empleado.permiso === '0' ? '🔓' : '🔒' }}
+                      <i class="bi" [class.bi-lock]="empleado.permiso !== '0'" [class.bi-unlock]="empleado.permiso === '0'"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Estadísticas -->
+     <div class="row mt-3">
+        <div class="col">
+          <div class="alert alert-info">
+            <strong>Administradores:</strong> {{ totalAdministradores }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="alert alert-info">
+            <strong>Vendedores:</strong> {{ totalVendedores }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="alert alert-success">
+            <strong>Activos:</strong> {{ totalActivos }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="alert alert-danger">
+            <strong>Inactivos:</strong> {{ totalInactivos }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Formulario de creación/edición -->
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header" [ngClass]="{'bg-primary': !editId, 'bg-warning': editId}">
+          <h3 class="mb-0 text-white">{{ editId ? 'Editar Empleado' : 'Crear Nuevo Usuario' }}</h3>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="guardarUsuario()" #usuarioForm="ngForm">
+                <!-- Campos para nuevo usuario -->
+                <div class="mb-3" *ngIf="!editId">
+                    <label class="form-label">Nombre de Usuario <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="nuevoUsuario.user" name="user" required>
+                </div>
+                
+                <div class="mb-3" *ngIf="!editId">
+                    <label class="form-label">Contraseña <span class="text-danger">*</span></label>
+                    <input type="password" class="form-control" [(ngModel)]="nuevoUsuario.pass" name="pass" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Nombre <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="nuevoUsuario.nombre" name="nombre" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Apellido <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="nuevoUsuario.apellido" name="apellido" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Permiso <span class="text-danger">*</span></label>
+                    <select class="form-select" [(ngModel)]="nuevoUsuario.permiso" name="permiso" required>
+                    <option value="1">Vendedor</option>
+                    <option value="2">Administrador</option>
+                    </select>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success" [disabled]="usuarioForm.invalid">
+                    <i class="bi bi-save"></i> {{ editId ? 'Actualizar' : 'Crear Usuario' }}
+                    </button>
+                    <button type="button" class="btn btn-secondary" (click)="limpiarFormulario()">
+                    <i class="bi bi-x-circle"></i> Cancelar
+                    </button>
+                </div>
+                </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="flex-grow-1">
+    <!-- Todo tu contenido aquí -->
+  </main>
+
+
+    <!-- Todo tu contenido aquí -->
+  
+  <footer class="bg-dark text-light py-3">
+    <div class="container text-center">
+      <p class="mb-1">© 2023 Super Mario. Todos los derechos reservados.</p>
+      <p class="mb-0">Teléfono: 123-456-7890</p>
+    </div>
+  </footer>
+  </body>

@@ -6,6 +6,7 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { CrearclienteComponent } from './components/crearcliente/crearcliente.component';
 import { VentaComponent } from './components/venta/venta.component';
 import { AdminProductosComponent } from './components/admin-productos/admin-productos.component';
+import { UsuarioComponent } from './components/usuario/usuario.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'crearcliente', component: CrearclienteComponent},
   { path: 'venta', component: VentaComponent},
   { path: 'productos', component: AdminProductosComponent},
+  { path: 'usuario', component: UsuarioComponent},
   { path: '', redirectTo: 'inicio', pathMatch: 'full' }, // Redirige a /login
 ];
 
