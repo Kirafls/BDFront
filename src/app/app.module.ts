@@ -14,6 +14,7 @@ import { CrearclienteComponent } from './components/crearcliente/crearcliente.co
 import { AdminProductosComponent } from './components/admin-productos/admin-productos.component';
 import { VentaComponent } from './components/venta/venta.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
+import { ReporteComponent } from './components/reporte/reporte.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
     CrearclienteComponent,
     AdminProductosComponent,
     VentaComponent,
+    ReporteComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +33,7 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    UsuarioComponent
+    UsuarioComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true },

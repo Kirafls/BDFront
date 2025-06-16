@@ -1,0 +1,95 @@
+<div class="pos-container">
+    <div class="pos-title">Reportes de Ventas</div>
+    
+    <div class="pos-layout">
+        <!-- Panel de Ventas por Día -->
+        <div class="productos-panel">
+            <div class="busqueda-container">
+                <h3>Ventas por Día</h3>
+               
+            </div>
+            
+            <div class="resultados-container">
+                <div class="tabla-productos">
+                    <div class="tabla-header">
+                        <span>Fecha</span>
+                        <span>Total Vendido</span>
+                        <span># Ventas</span>
+                    </div>
+                    
+                    <div class="tabla-body">
+                        <div *ngIf="reporteVentas.cargando" class="text-center py-4">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Cargando...</span>
+                            </div>
+                        </div>
+                        
+                        <div *ngIf="!reporteVentas.cargando && reporteVentas.error" class="alert alert-danger m-3">
+                            {{ reporteVentas.error }}
+                        </div>
+                        
+                        <div *ngFor="let venta of reporteVentas.ventasPorDia" class="producto-row">
+                            <span>{{ venta.fecha | date:'dd/MM/yyyy' }}</span>
+                            <span class="text-end">${{ venta.total_dia | number:'1.2-2' }}</span>
+                            <span class="text-end">{{ venta.cantidad_ventas }}</span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="total-line">
+                <span>Total General:</span>
+                <span class="total-amount">${{ totalVentas | number:'1.2-2' }}</span>
+            </div>
+            <button class="btn btn-success" (click)="generarReportePdf('ventas')">
+                <i class="fas fa-file-export"></i> Exportar a PDF
+            </button>
+        </div>
+        
+        <!-- Panel de Productos Más Vendidos -->
+        <div class="resumen-panel">
+            <div class="resumen-header">
+                <h3>Productos Más Vendidos</h3>
+                <button class="btn-limpiar" (click)="generarReportePdf('productos')" title="Exportar a PDF">
+                    <i class="fas fa-file-export"></i>
+                </button>
+            </div>
+            
+            <div class="carrito-items">
+                <div *ngIf="reporteVentas.cargando" class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+                
+                <div *ngFor="let producto of reporteVentas.productosMasVendidos" class="carrito-item">
+                    <div class="item-info">
+                        <span class="item-nombre">{{ producto.nombre }}</span>
+                        <span class="item-detalle">
+                            Vendidos: {{ producto.total_vendido }} | 
+                            Ingresos: ${{ producto.ingresos_totales | number:'1.2-2' }}
+                        </span>
+                    </div>
+                    <span class="text-end" style="font-weight: bold;">#{{ producto.id_producto }}</span>
+                </div>
+            </div>
+            
+            <div class="resumen-total">
+                <div class="total-line">
+                    <span>Total Productos:</span>
+                    <span>{{ reporteVentas.productosMasVendidos.length }}</span>
+                </div>
+            </div>
+            
+            <div class="acciones-venta">
+                <button class="btn-procesar" (click)="generarReportePdf('full')">
+                    <i class="fas fa-file-pdf"></i> Exportar Reporte Completo
+                </button>
+                <button class="btn-cancelar" (click)="cargarReportes()">
+                    <i class="fas fa-sync-alt"></i> Actualizar Datos
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

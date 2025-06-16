@@ -7,7 +7,7 @@ import { CrearclienteComponent } from './components/crearcliente/crearcliente.co
 import { VentaComponent } from './components/venta/venta.component';
 import { AdminProductosComponent } from './components/admin-productos/admin-productos.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
-
+import { ReporteComponent } from './components/reporte/reporte.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -16,7 +16,9 @@ const routes: Routes = [
   { path: 'venta', component: VentaComponent},
   { path: 'productos', component: AdminProductosComponent},
   { path: 'usuario', component: UsuarioComponent},
-  { path: '', redirectTo: 'inicio', pathMatch: 'full' }, // Redirige a /login
+  { path: 'reporte', component: ReporteComponent},
+  { path: '', redirectTo: 'inicio', pathMatch: 'full' },
+  { path: '**', redirectTo: 'login' } // Redirige a /login
 ];
 
 @NgModule({
