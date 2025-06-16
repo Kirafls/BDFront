@@ -6,33 +6,33 @@ import { LoginService } from '../services/login.service';
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authService: LoginService, private router: Router) {}
+ constructor(private authService: LoginService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    // Verifica si está autenticado y no está bloqueado
+    // Rutas públicas
+    const publicRoutes = ['/login', '/inicio', '/crearcliente'];
+    if (publicRoutes.includes(state.url)) return true;
+
+    // Verificar autenticación
     if (!this.authService.isAuthenticated()) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
       return false;
     }
 
-    // Verifica si el usuario está bloqueado
+    // Verificar si está bloqueado
     if (this.authService.isBlocked()) {
       this.router.navigate(['/blocked']);
       return false;
     }
 
-    // Verifica roles específicos si están definidos en la ruta
-    const requiredLevel = route.data['requiredLevel'];
-    if (requiredLevel !== undefined) {
-      const userLevel = this.authService.getUserLevel();
-      
-      if (userLevel < requiredLevel) {
-        this.router.navigate(['/unauthorized']);
-        return false;
-      }
+    // Verificar roles
+    const requiredRoles = route.data['roles'] as Array<number>;
+    if (requiredRoles && !requiredRoles.includes(this.authService.getPermiso())) {
+      this.router.navigate(['/no-autorizado']);
+      return false;
     }
 
     return true;

@@ -10,15 +10,17 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { ReporteComponent } from './components/reporte/reporte.component';
 
 const routes: Routes = [
+// Rutas públicas (accesibles para todos)
+  { path: '', redirectTo: '/inicio', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'inicio', component: InicioComponent},
-  { path: 'crearcliente', component: CrearclienteComponent},
-  { path: 'venta', component: VentaComponent},
-  { path: 'productos', component: AdminProductosComponent},
-  { path: 'usuario', component: UsuarioComponent},
-  { path: 'reporte', component: ReporteComponent},
-  { path: '', redirectTo: 'inicio', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' } // Redirige a /login
+  { path: 'inicio', component: InicioComponent },
+  { path: 'crearcliente', component: CrearclienteComponent },
+  { path: 'venta', component: VentaComponent },
+  { path: 'productos', component: AdminProductosComponent },
+  { path: 'usuario', component: UsuarioComponent },
+  { path: 'reporte', component: ReporteComponent },
+
+  { path: '**', redirectTo: '/inicio' } // Ruta comodín
 ];
 
 @NgModule({

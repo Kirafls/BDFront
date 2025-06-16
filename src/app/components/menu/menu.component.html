@@ -1,11 +1,35 @@
 <nav class="animated-nav">
   <ul>
-    <li><a routerLink="/inicio" routerLinkActive="active">Inicio</a></li>
-    <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
-    <li><a routerLink="/venta" routerLinkActive="active">Venta</a></li>
-    <li><a routerLink="/productos" routerLinkActive="active">Productos</a></li>
-    <li><a routerLink="/crearcliente" routerLinkActive="active">Registrar</a></li>
-    <li><a routerLink="/usuario" routerLinkActive="active">Usuarios</a></li>
-    <li><a routerLink="/reporte" routerLinkActive="active">Reportes</a></li>
+    <!-- Rutas públicas -->
+    <li>
+      <a routerLink="/inicio" routerLinkActive="active">Inicio</a>
+    </li>
+    <li>
+      <a routerLink="/crearcliente" routerLinkActive="active">Crear Cliente</a>
+    </li>
+    
+    <!-- Rutas para vendedores -->
+    <li *ngIf="showVendedorRoutes">
+      <a routerLink="/venta" routerLinkActive="active">Ventas</a>
+    </li>
+    <li *ngIf="showVendedorRoutes">
+      <a routerLink="/productos" routerLinkActive="active">Productos</a>
+    </li>
+    
+    <!-- Rutas para administradores -->
+    <li *ngIf="showAdminRoutes">
+      <a routerLink="/usuario" routerLinkActive="active">Usuarios</a>
+    </li>
+    <li *ngIf="showAdminRoutes">
+      <a routerLink="/reporte" routerLinkActive="active">Reportes</a>
+    </li>
+    
+    <!-- Login/Logout -->
+    <li *ngIf="!authService.isAuthenticated()">
+      <a routerLink="/login" routerLinkActive="active">Login</a>
+    </li>
+    <li *ngIf="authService.isAuthenticated()">
+      <a (click)="authService.logout()">Cerrar Session({{ username }})</a>
+    </li>
   </ul>
 </nav>
