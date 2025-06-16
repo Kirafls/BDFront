@@ -12,6 +12,7 @@ import { MenuComponent } from './components/menu/menu.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { AdminProductosComponent } from './components/admin-productos/admin-productos.component';
 import { VentaComponent } from './components/venta/venta.component';
+import { ReportesVentasComponent } from './components/reportes-ventas/reportes-ventas.component';
 
 
 
@@ -23,7 +24,8 @@ import { VentaComponent } from './components/venta/venta.component';
     MenuComponent,
     InicioComponent,
     AdminProductosComponent,
-    VentaComponent
+    VentaComponent,
+    ReportesVentasComponent
   ],
   imports: [
     BrowserModule,

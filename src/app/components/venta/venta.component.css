@@ -289,6 +289,19 @@
     background: #5a6268;
 }
 
+.btn-reportes {
+    padding: 12px;
+    background: #ff8300;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-reportes:hover {
+    background: #c58a00;
+}
+
 @media (max-width: 768px) {
     .pos-layout {
     grid-template-columns: 1fr;

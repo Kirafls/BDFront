@@ -58,7 +58,8 @@ export interface ReporteVentas {
   providedIn: 'root'
 })
 export class VentasService {
-  private apiUrl = 'http://localhost:3000/api/ventas';
+  private apiUrl = 'http://localhost/mi_api/api/ventas.php';
+
 
   constructor(private http: HttpClient) { }
 
@@ -101,6 +102,10 @@ export class VentasService {
         catchError(this.handleError)
       );
   }
+
+  getVentasReporte() {
+  return this.http.get<any[]>(`${this.apiUrl}/reporte_ventas.php`);
+}
 
   // Manejo de errores
   private handleError(error: HttpErrorResponse) {

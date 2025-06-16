@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class NuserService {
-  private bduser= 'http://localhost:3000/bd/nuser';
+  private bduser = 'http://localhost/mi_api/bd/nuser.php';
   constructor(private http: HttpClient) { }
     
   sendUser(user: string,contra:string):Observable<any>{

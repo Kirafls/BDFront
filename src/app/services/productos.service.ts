@@ -24,7 +24,14 @@ export interface ApiResponse {
   providedIn: 'root'
 })
 export class ProductosService {
-  private apiUrl = 'http://localhost:3000/api/productos';
+  generarPDFFactura(Id_factura: any) {
+    return this.http.get(`http://localhost/mi_api/api/pdf_factura.php?id_factura=${Id_factura}`, { responseType: 'blob' })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+  
+  private apiUrl = 'http://localhost/mi_api/api/ventas.php';
 
   constructor(private http: HttpClient) { }
 
@@ -82,6 +89,18 @@ export class ProductosService {
       map(productos => productos.filter(p => p.activo))
     );
   }
+
+  // productos.service.ts
+
+getReporteVentas() {
+  return this.http.get<any[]>(`${this.apiUrl}/reportes.php`);
+}
+
+getVentasReporte() {
+  return this.http.get<any[]>(`${this.apiUrl}/reporte_ventas.php`);
+}
+
+
 
   // Obtener productos con stock bajo
   getProductosStockBajo(limite: number = 10): Observable<Producto[]> {

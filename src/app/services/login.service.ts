@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class LoginService {
-  private apiUrl = 'http://localhost:3000/tienda';
+  private apiUrl = 'http://localhost/mi_api/tienda.php';
 
   constructor(private http: HttpClient, private router: Router) {}
 
