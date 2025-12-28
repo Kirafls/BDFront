@@ -8,6 +8,7 @@ import { VentaComponent } from './components/venta/venta.component';
 import { AdminProductosComponent } from './components/admin-productos/admin-productos.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { ReporteComponent } from './components/reporte/reporte.component';
+import { SobreNosotros } from './components/sobrenosotros/sobrenosotros';
 
 const routes: Routes = [
 // Rutas públicas (accesibles para todos)
@@ -19,7 +20,7 @@ const routes: Routes = [
   { path: 'productos', component: AdminProductosComponent },
   { path: 'usuario', component: UsuarioComponent },
   { path: 'reporte', component: ReporteComponent },
-
+ { path: 'sobre', component: SobreNosotros }
   { path: '**', redirectTo: '/inicio' } // Ruta comodín
 ];
 
